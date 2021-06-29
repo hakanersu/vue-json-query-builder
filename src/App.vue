@@ -1,31 +1,24 @@
 <template>
   <div id="app">
     <h1>Vue JSON Query Builder</h1>
-    <VueJSONQueryBuilder v-bind:query="query" v-bind:options="queryOptions" v-model="currentQuery" v-bind:run-query="runQuery" storage="test-vue-json-query-builder" />
+    <VueJSONQueryBuilder
+      v-model="currentQuery" :query="query" :options="queryOptions" :run-query="runQuery"
+      storage="test-vue-json-query-builder"
+    />
     <strong class="mt-3 mb-1 d-block">Generated Query:</strong>
-    <b-card>
-      <pre><code>{{ JSON.stringify(currentQuery, null, 4) }}</code></pre>
-    </b-card>
+    <pre><code>{{ JSON.stringify(currentQuery, null, 4) }}</code></pre>
   </div>
 </template>
 
 <script>
-import Vue from 'vue';
-
-import '@/scss/custom.scss';
-
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
-Vue.use(BootstrapVue);
-Vue.use(IconsPlugin);
-
-import VueJSONQueryBuilder from '@/vue-json-query-builder.vue';
+import VueJSONQueryBuilder from '@/vue-json-query-builder.vue'
 
 export default {
   name: 'App',
   components: {
     VueJSONQueryBuilder
   },
-  data: function() {
+  data: function () {
     return {
       currentQuery: {},
       query: {
@@ -279,37 +272,21 @@ export default {
     }
   },
   methods: {
-    runQuery: function(response){
-      return new Promise(function(resolve){
-        setTimeout(function(){
-          alert("Your current query:\n" + JSON.stringify(response), null, 4);
-          resolve();
-        }, 1000);
-      });
+    runQuery: function (response){
+      return new Promise(function (resolve){
+        setTimeout(function (){
+          alert("Your current query:\n" + JSON.stringify(response), null, 4)
+          resolve()
+        }, 1000)
+      })
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
-
-  #app {
-    font-family: 'Open Sans', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    padding: 15px;
-
-    h1 {
-      font-size: 24px;
-      margin-bottom: 15px;
-    }
-
-    pre {
-
-      code {
+<style  scoped>
+ 
+    pre code {
         font-size: 12px;
       }
-    }
-  }
 </style>

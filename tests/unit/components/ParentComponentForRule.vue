@@ -1,6 +1,6 @@
 <template>
   <div>
-    <VueQueryRule v-bind:rule="currentQuery.rules[0]" v-bind:options="options" />
+    <VueQueryRule :rule="currentQuery.rules[0]" :options="options" />
   </div>
 </template>
 
@@ -20,18 +20,15 @@ export default {
       type: Array
     }
   },
-  data: function() {
+  data: function () {
     return {
     }
   },
   computed: {
   },
-  methods: {
-  },
   watch: {
+  },
+  methods: {
   }
 }
 </script>
-
-<style lang="scss">
-</style>

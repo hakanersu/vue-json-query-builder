@@ -15,9 +15,11 @@
               >
                 <template v-for="option in ruleIDOptions">
                   <option
-                    :value="option.id"
                     :key="option.id"
-                  >{{ option.name}}</option>
+                    :value="option.id"
+                  >
+                    {{ option.name }}
+                  </option>
                 </template>
               </select>
               <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -30,7 +32,6 @@
                 </svg>
               </div>
             </div>
-
           </slot>
         </div>
         <div class="vue-query-rule-operator pr-1">
@@ -39,7 +40,6 @@
             :rule="rule"
             :options="ruleOperatorOptions"
           >
-
             <div class="relative">
               <select
                 v-model="rule.operator"
@@ -47,9 +47,11 @@
               >
                 <template v-for="option in ruleOperatorOptions">
                   <option
-                    :value="option.id"
                     :key="option.id"
-                  >{{ option.name}}</option>
+                    :value="option.id"
+                  >
+                    {{ option.name }}
+                  </option>
                 </template>
               </select>
               <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -66,9 +68,9 @@
         </div>
         <div class="vue-query-rule-value pr-1">
           <slot
+            v-if="ruleParams.type === 'number'"
             name="number"
             :rule="rule"
-            v-if="ruleParams.type === 'number'"
           >
             <input
               v-model="rule.value"
@@ -77,16 +79,16 @@
             >
           </slot>
           <slot
+            v-else-if="ruleParams.type === 'date'"
             name="date"
             :rule="rule"
-            v-else-if="ruleParams.type === 'date'"
           >
-            <input type="date" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-1 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+            <input type="date" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-1 px-2 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
           </slot>
           <slot
+            v-else-if="ruleParams.type === 'time'"
             name="time"
             :rule="rule"
-            v-else-if="ruleParams.type === 'time'"
           >
             <input
               v-model="rule.value"
@@ -95,23 +97,25 @@
             >
           </slot>
           <slot
+            v-else-if="ruleParams.type === 'select'"
             name="select"
             :rule="rule"
             :options="ruleParams.options"
             :multiple="multiple"
-            v-else-if="ruleParams.type === 'select'"
           >
             <div class="relative">
               <select
-                :multiple="multiple"
                 v-model="rule.value"
+                :multiple="multiple"
                 class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-1 px-2 pr-8 rounded text-sm leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               >
                 <template v-for="option in ruleParams.options">
                   <option
-                    :value="option.id"
                     :key="option.id"
-                  >{{ option.name}}</option>
+                    :value="option.id"
+                  >
+                    {{ option.name }}
+                  </option>
                 </template>
               </select>
               <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -124,12 +128,11 @@
                 </svg>
               </div>
             </div>
-
           </slot>
           <slot
+            v-else-if="ruleParams.type === 'phone'"
             name="phone"
             :rule="rule"
-            v-else-if="ruleParams.type === 'phone'"
           >
             <input
               v-model="rule.value"
@@ -138,9 +141,9 @@
             >
           </slot>
           <slot
+            v-else-if="ruleParams.type === 'email'"
             name="email"
             :rule="rule"
-            v-else-if="ruleParams.type === 'email'"
           >
             <input
               v-model="rule.value"
@@ -159,9 +162,9 @@
     </div>
 
     <button
-      v-on:click="deleteRule"
       type="button"
       class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+      @click="deleteRule"
     >
       <svg
         class="-ml-1 mr-2 h-5 w-5 text-gray-400"
@@ -175,7 +178,7 @@
           stroke-linejoin="round"
           stroke-width="2"
           d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-        ></path>
+        />
       </svg>
     </button>
   </div>
@@ -201,14 +204,14 @@ export default {
   },
   computed: {
     ruleParams: function () {
-      const self = this;
+      const self = this
       return self.options.find(function (option) {
         return option.id === self.rule.id
-      });
+      })
     },
     ruleIDOptions: function () {
-      const self = this;
-      const options = self.options;
+      const self = this
+      const options = self.options
       return options.map(function (option) {
         return {
           id: option.id,
@@ -217,19 +220,19 @@ export default {
       })
     },
     currentRuleID: function () {
-      const self = this;
-      return self.rule.id;
+      const self = this
+      return self.rule.id
     },
     currentRuleOperator: function () {
-      const self = this;
-      return self.rule.operator;
+      const self = this
+      return self.rule.operator
     },
     multiple: function () {
-      const self = this;
-      return self.rule.operator.includes('in');
+      const self = this
+      return self.rule.operator.includes('in')
     },
     ruleOperatorOptions: function () {
-      const self = this;
+      const self = this
       switch (self.ruleParams.type) {
         case 'select':
           return [
@@ -237,7 +240,7 @@ export default {
             { id: '!=', name: 'is not' },
             { id: 'in', name: 'is (multiple)' },
             { id: 'not in', name: 'is not (multiple)' }
-          ];
+          ]
         case 'number':
         case 'date':
         case 'month':
@@ -249,14 +252,14 @@ export default {
             { id: '<', name: 'is less than' },
             { id: '>=', name: '>=' },
             { id: '<=', name: '<=' }
-          ];
+          ]
         case 'phone':
           return [
             { id: '=', name: 'is' },
             { id: '!=', name: 'is not' },
             { id: '()', name: 'includes' },
             { id: '!()', name: 'does not include' }
-          ];
+          ]
         case 'email':
           return [
             { id: '=', name: 'is' },
@@ -267,7 +270,7 @@ export default {
             { id: ')', name: 'ends with' },
             { id: '!(', name: 'does not start with' },
             { id: '!)', name: 'does not end with' }
-          ];
+          ]
         default:
           return [
             { id: '=', name: 'is' },
@@ -280,46 +283,39 @@ export default {
             { id: ')', name: 'ends with' },
             { id: '!(', name: 'does not start with' },
             { id: '!)', name: 'does not end with' }
-          ];
+          ]
       }
-    }
-  },
-  methods: {
-    resetRuleValue: function () {
-      const self = this;
-      if (self.multiple) {
-        self.rule.value = [];
-      } else {
-        self.rule.value = '';
-      }
-    },
-    deleteRule: function () {
-      const self = this;
-      const parentRules = self.$parent.currentQuery.rules;
-      parentRules.splice(parentRules.indexOf(self.rule), 1);
     }
   },
   watch: {
     currentRuleID: function () {
-      const self = this;
-      self.rule.operator = '=';
-      self.resetRuleValue();
+      const self = this
+      self.rule.operator = '='
+      self.resetRuleValue()
     },
     currentRuleOperator: function (to, from) {
-      const self = this;
+      const self = this
       if (to.includes('in') !== from.includes('in')) {
-        self.resetRuleValue();
+        self.resetRuleValue()
       }
-      return false;
+      return false
+    }
+  },
+  methods: {
+    resetRuleValue: function () {
+      const self = this
+      if (self.multiple) {
+        self.rule.value = []
+      } else {
+        self.rule.value = ''
+      }
+    },
+    deleteRule: function () {
+      const self = this
+      const parentRules = self.$parent.currentQuery.rules
+      parentRules.splice(parentRules.indexOf(self.rule), 1)
     }
   }
 }
 </script>
 
-<style lang="scss">
-.vue-query-rule {
-  .vs__clear {
-    display: none;
-  }
-}
-</style>

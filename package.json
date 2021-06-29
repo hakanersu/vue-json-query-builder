@@ -26,39 +26,69 @@
     "@vue/test-utils": "^1.0.3",
     "babel-eslint": "^10.1.0",
     "babel-plugin-istanbul": "^6.0.0",
-    "bootstrap": "^4.5.0",
-    "bootstrap-vue": "^2.15.0",
     "chai": "^4.1.2",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "node-sass": "^4.14.1",
     "nyc": "^15.1.0",
-    "sass-loader": "^8.0.2",
     "vue": "^2.6.11",
     "vue-cli-plugin-styleguidist": "^4.31.0",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
     "root": true,
-    "env": {
-      "node": true
-    },
     "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
+      "eslint:recommended",
+      "plugin:vue/recommended"
     ],
-    "parserOptions": {
-      "parser": "babel-eslint"
+    "rules": {
+      "import/no-unresolved": 0,
+      "import/no-unassigned-import": 0,
+      "semi": [
+        "error",
+        "never"
+      ],
+      "no-console": "off",
+      "space-before-function-paren": [
+        "error",
+        {
+          "anonymous": "always",
+          "named": "always",
+          "asyncArrow": "always"
+        }
+      ],
+      "vue/max-attributes-per-line": [
+        "error",
+        {
+          "singleline": 4,
+          "multiline": {
+            "max": 4,
+            "allowFirstLine": false
+          }
+        }
+      ]
     },
-    "rules": {},
+    "env": {
+      "browser": true,
+      "commonjs": true,
+      "es6": true
+    },
+    "globals": {
+      "process": true
+    },
+    "parser": "vue-eslint-parser",
+    "parserOptions": {
+      "parser": "babel-eslint",
+      "ecmaVersion": 8,
+      "sourceType": "module"
+    },
     "overrides": [
       {
         "files": [
-          "**/__tests__/*.{j,t}s?(x)",
-          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+          "**/resources/js/__tests__/*.{j,t}s?(x)",
+          "**/resources/js/tests/unit/**/*.spec.{j,t}s?(x)"
         ],
         "env": {
-          "mocha": true
+          "jest": true
         }
       }
     ]
