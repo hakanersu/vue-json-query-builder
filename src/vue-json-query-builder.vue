@@ -5,7 +5,7 @@
     :style="{'pointer-events': loading ? 'none' : 'all'}"
   >
     <div
-      class="flex  bg-white px-4 py-2 border-b border-gray-200 sm:px-6 justify-between items-center"
+      class="flex cursor-pointer bg-white px-4 py-2 border-b border-gray-200 sm:px-6 justify-between items-center"
       @click="isVisible = !isVisible"
     >
       <h3 class="text-lg leading-6 font-medium text-gray-900">
@@ -156,39 +156,34 @@
           type="button"
           class="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
           @click="$refs.addModal.openModal()"
-        >
-          Save Query
-        </button>
+          v-text="saveText"
+        />
         <button
           v-if="savedQueries.length > 0"
           type="button"
           class="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
           @click="$refs.listModal.openModal()"
-        >
-          View Saved Queries
-        </button>
+          v-text="viewQueryText"
+        />
       </span>
       <div>
         <button
           type="button"
           class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           @click="resetToDefaultQuery"
-        >
-          Reset to Default Query
-        </button>
+          v-text="resetQueryText"
+        />
         <button
           v-if="runQuery"
           :disabled="runQueryDisabled"
           type="button"
           class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           @click="runCurrentQuery(currentQuery)"
-        >
-          Run Query
-        </button>
+          v-text="runQueryText"
+        />
       </div>
     </div>
 
- 
     <modal ref="listModal">
       <table>
         <thead>
@@ -249,6 +244,22 @@ export default {
     Modal
   },
   props: {
+    saveText: {
+      type: String,
+      default: 'Save Query',
+    },
+    viewQueryText: {
+      type: String,
+      default: 'View Saved Queries'
+    },
+    resetQueryText: {
+      type: String,
+      default: 'Reset to Default Query',
+    },
+    runQueryText: {
+      type: String,
+      default: 'Run Query',
+    },
     /**
       * The initial query to load into VueJSONQueryBuilder on load.
     */
@@ -261,7 +272,7 @@ export default {
     */
     options: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     /**
       * @model
@@ -321,12 +332,10 @@ export default {
     savedQueries () {
       return this.modals.viewSavedQueries.savedQueries
     },
-    areAllQueriesValid: function () {
-     
-
+    areAllQueriesValid () {
       return this.checkIfEntityAndChildrenAreValid(this.currentQuery)
     },
-   
+
   },
   watch: {
     currentQuery: {
@@ -355,25 +364,25 @@ export default {
     }
   },
   methods: {
- checkIfEntityAndChildrenAreValid (entity) {
-        const keys = Object.keys(entity)
-        let response = true
+    checkIfEntityAndChildrenAreValid (entity) {
+      const keys = Object.keys(entity)
+      let response = true
 
-        if (keys.includes('value')) {
-          if (entity.value === null || entity.value.toString().length === 0) {
+      if (keys.includes('value')) {
+        if (entity.value === null || entity.value.toString().length === 0) {
+          response = false
+        }
+      } else if (keys.includes('rules')) {
+        for (let i = 0; i < entity.rules.length; i++) {
+          const rule = entity.rules[i]
+          if (!this.checkIfEntityAndChildrenAreValid(rule)) {
             response = false
           }
-        } else if (keys.includes('rules')) {
-          for (let i = 0; i < entity.rules.length; i++) {
-            const rule = entity.rules[i]
-            if (!this.checkIfEntityAndChildrenAreValid(rule)) {
-              response = false
-            }
-          }
         }
+      }
 
-        return response
-      },
+      return response
+    },
     getStoredQueries () {
       if (this.storage) {
         const storedQueries = localStorage.getItem('VueJSONQueryBuilder_stored_' + this.storage)
@@ -426,7 +435,6 @@ export default {
       this.addUUIDsToCurrentQuery()
     },
     saveQuery () {
-
       this.savedQueries.push({
         name: this.queryName,
         createdDate: new Date(),
@@ -440,7 +448,7 @@ export default {
       this.modals.viewSavedQueries.visible = false
     },
     deleteSavedQuery (query) {
-        this.savedQueries.splice(this.savedQueries.indexOf(query), 1)
+      this.savedQueries.splice(this.savedQueries.indexOf(query), 1)
     }
   }
 }

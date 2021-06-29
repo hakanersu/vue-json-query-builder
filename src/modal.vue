@@ -43,16 +43,14 @@
               type="button"
               class="inline-flex justify-center w-full rounded-md   px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm"
               @click="saveModal"
-            >
-              Save Query
-            </button>
+              v-text="saveText"
+            />
             <button
               type="button"
               class="w-full inline-flex justify-center rounded-md border border-gray-300 px-4 py-2 bg-white text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
               @click="open=false"
-            >
-              Cancel
-            </button>
+              v-text="cancelText"
+            />
           </div>
         </div>
       </div>
@@ -70,6 +68,14 @@ export default {
     title: {
       type: String,
       default: 'Modal title',
+    },
+    saveText: {
+      type: String,
+      default: 'Save Query',
+    },
+    cancelText: {
+      type: String,
+      default: 'Cancel'
     }
   },
   data: () => ({

@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="flex justify-between">
+    <div class="flex justify-between items-center">
       <span class="relative z-0 inline-flex shadow-sm rounded-md">
         <button
           type="button"
           :class="[andConditionButtonVariant]"
-          class="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300  text-sm font-medium  hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+          class="relative inline-flex items-center px-2 py-1 rounded-l-md border border-gray-300  text-sm font-medium  hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
           @click="currentQuery.condition = 'and'"
         >
           AND
@@ -13,7 +13,7 @@
         <button
           type="button"
           :class="[orConditionButtonVariant]"
-          class="-ml-px relative inline-flex items-center px-4 py-2 rounded-r-md border border-gray-300 text-sm font-medium hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+          class="-ml-px relative inline-flex items-center px-2 py-1 rounded-r-md border border-gray-300 text-sm font-medium hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
           @click="currentQuery.condition = 'or'"
         >
 
@@ -24,7 +24,7 @@
         <button
           v-if="level > 0"
           type="button"
-          class="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+          class="relative inline-flex items-center px-2 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
           @click="deleteGroup"
         >
           <svg
@@ -45,7 +45,8 @@
         </button>
         <button
           type="button"
-          class="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+          :class="[level<=0 ? 'rounded-l-md' : '']"
+          class="-ml-px relative inline-flex items-center px-2 py-1 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
           @click="addRule"
         >
           <svg
@@ -309,6 +310,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>
