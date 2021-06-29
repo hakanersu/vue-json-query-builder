@@ -1,23 +1,23 @@
 <template>
-  <b-card
-    no-body
-    class="vue-json-query-builder"
+  <div
+    class="bg-white border border-gray-200 shadow"
     border-variant="primary"
     v-bind:style="{'pointer-events': loading ? 'none' : 'all'}"
   >
-    <b-card-header
-      header-bg-variant="primary"
-      header-border-variant="primary"
-      header-text-variant="white"
-      header-class="vue-json-query-builder-header p-2 d-flex align-items-center"
+    <div class="flex  bg-white px-4 py-2 border-b border-gray-200 sm:px-6 justify-between items-center"
       v-on:click="isVisible = !isVisible"
     >
-      <small class="mr-auto">Query Builder</small>
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Query Builder</h3>
       
-      <b-icon-caret-up-fill v-if="!isVisible" />
-      <b-icon-caret-down-fill v-else />
-    </b-card-header>
-    <b-card-body
+
+      <div v-if="!isVisible" >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+      </div>
+     <div v-else>
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+       </div> 
+    </div>
+    <div
       class="p-2"
       v-if="isVisible"
     >
@@ -91,10 +91,9 @@
           </slot>
         </template>
       </VueQueryGroup>
-    </b-card-body>
-    <b-card-footer
-      footer-border-variant="primary"
-      footer-class="vue-json-query-builder-footer d-flex p-2"
+    </div>
+    <div
+     class="flex px-2 py-3"
       v-if="isVisible"
     >
       <b-button-group
@@ -139,7 +138,7 @@
         <b-icon icon="circle-fill" animation="throb" class="ml-1" v-if="loading" />
         <b-icon-arrow-right-circle-fill class="ml-1" v-else />
       </b-button>
-    </b-card-footer>
+    </div>
     <b-modal
       header-bg-variant="primary"
       header-text-variant="white"
@@ -195,7 +194,7 @@
         </template>
       </b-table>
     </b-modal>
-  </b-card>
+  </div>
 </template>
 
 <script>

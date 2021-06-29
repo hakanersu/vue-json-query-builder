@@ -1,8 +1,8 @@
 <template>
-  <div class="vue-query-rule d-flex">
-    <b-container fluid class="p-0">
-      <b-row no-gutters>
-        <b-col cols="4" class="vue-query-rule-id pr-1">
+  <div class="flex">
+    <div class="p-0 w-full">
+      <div class="grid grid-cols-6 gap-4">
+        <div class="vue-query-rule-id pr-1 col-span-4">
           <slot name="ruleID" :rule="rule" :options="ruleIDOptions">
             <b-form-select
               size="sm"
@@ -12,8 +12,8 @@
               v-model="rule.id"
             />
           </slot>
-        </b-col>
-        <b-col cols="3" class="vue-query-rule-operator pr-1">
+        </div>
+        <div class="vue-query-rule-operator pr-1">
           <slot name="ruleOperator" :rule="rule" :options="ruleOperatorOptions">
             <b-form-select
               size="sm"
@@ -23,14 +23,10 @@
               v-model="rule.operator"
             />
           </slot>
-        </b-col>
-        <b-col cols="5" class="vue-query-rule-value pr-1">
+        </div>
+        <div class="vue-query-rule-value pr-1">
           <slot name="number" :rule="rule" v-if="ruleParams.type === 'number'">
-            <b-form-input
-              size="sm"
-              v-model="rule.value"
-              type="number"
-            />
+            <input v-model="rule.value" type="number" class="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-1 px-3 bg-white text-gray-700 placeholder-gray-400  text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"> 
           </slot>
           <slot name="date" :rule="rule" v-else-if="ruleParams.type === 'date'">
             <b-form-datepicker
@@ -75,17 +71,13 @@
             v-model="rule.value"
             v-else
           />
-        </b-col>
-      </b-row>
-    </b-container>
-    <b-button
-      size="sm"
-      variant="danger"
-      v-on:click="deleteRule"
-      class="vue-json-query-builder-delete-rule"
-    >
-      <b-icon-trash-fill />
-    </b-button>
+        </div>
+      </div>
+    </div>
+  
+    <button  v-on:click="deleteRule" type="button" class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+    <svg class="-ml-1 mr-2 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+    </button>
   </div>
 </template>
 

@@ -64,7 +64,7 @@ export default {
         name: 'State',
         type: 'select',
         options: [{
-          name: "Alabama",
+          name: "Turkey",
           id: "AL"
         }, {
           name: "Alaska",
