@@ -53,7 +53,7 @@
         :current-query="currentQuery"
         :options="options"
       >
-        <template v-slot:ruleID="{rule, options}">
+        <template v-slot:ruleID="{rule, opt}">
           <!--
             @slot The user interface element to replace ruleID selector
             @binding {object} rule The options to be applied to this rule selector
@@ -62,10 +62,10 @@
           <slot
             name="ruleID"
             :rule="rule"
-            :options="options"
+            :options="opt"
           />
         </template>
-        <template v-slot:ruleOperator="{rule, options}">
+        <template v-slot:ruleOperator="{rule, opt}">
           <!--
             @slot The user interface element to replace ruleOperator selector
             @binding {object} rule The options to be applied to this operator selector
@@ -74,7 +74,7 @@
           <slot
             name="ruleOperator"
             :rule="rule"
-            :options="options"
+            :options="opt"
           />
         </template>
         <template v-slot:number="{rule}">
@@ -107,7 +107,7 @@
             :rule="rule"
           />
         </template>
-        <template v-slot:select="{rule, options, multiple}">
+        <template v-slot:select="{rule, opt, multiple}">
           <!--
             @slot The user interface element to replace select
             @binding {object} rule The rule to be connected to this select
@@ -117,7 +117,7 @@
           <slot
             name="select"
             :rule="rule"
-            :options="options"
+            :options="opt"
             :multiple="multiple"
           />
         </template>
@@ -260,7 +260,8 @@ export default {
       * The options to define the parameters of each rule.
     */
     options: {
-      type: Array
+      type: Array,
+      default: () => []
     },
     /**
       * @model

@@ -196,7 +196,8 @@ export default {
       required: true
     },
     options: {
-      type: Array
+      type: Array,
+      default: () => [],
     }
   },
   data: function () {

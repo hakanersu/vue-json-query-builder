@@ -99,18 +99,18 @@
             :options="options"
             :level="level + 1"
           >
-            <template v-slot:ruleID="{rule, options}">
+            <template v-slot:ruleID="{rule, opt}">
               <slot
                 name="ruleID"
                 :rule="rule"
-                :options="options"
+                :options="opt"
               />
             </template>
-            <template v-slot:ruleOperator="{rule, options}">
+            <template v-slot:ruleOperator="{rule, opt}">
               <slot
                 name="ruleOperator"
                 :rule="rule"
-                :options="options"
+                :options="opt"
               />
             </template>
             <template v-slot:number="{rule}">
@@ -131,11 +131,11 @@
                 :rule="rule"
               />
             </template>
-            <template v-slot:select="{rule, options, multiple}">
+            <template v-slot:select="{rule, opt, multiple}">
               <slot
                 name="select"
                 :rule="rule"
-                :options="options"
+                :options="opt"
                 :multiple="multiple"
               />
             </template>
@@ -161,18 +161,18 @@
         :options="options"
         class="mt-2"
       >
-        <template v-slot:ruleID="{rule, options}">
+        <template v-slot:ruleID="{rule, opt}">
           <slot
             name="ruleID"
             :rule="rule"
-            :options="options"
+            :options="opt"
           />
         </template>
-        <template v-slot:ruleOperator="{rule, options}">
+        <template v-slot:ruleOperator="{rule, opt}">
           <slot
             name="ruleOperator"
             :rule="rule"
-            :options="options"
+            :options="opt"
           />
         </template>
         <template v-slot:number="{rule}">
@@ -193,11 +193,11 @@
             :rule="rule"
           />
         </template>
-        <template v-slot:select="{rule, options, multiple}">
+        <template v-slot:select="{rule, opt, multiple}">
           <slot
             name="select"
             :rule="rule"
-            :options="options"
+            :options="opt"
             :multiple="multiple"
           />
         </template>
@@ -235,7 +235,8 @@ export default {
       required: true
     },
     options: {
-      type: Array
+      type: Array,
+      default: () => []
     },
     level: {
       type: Number,

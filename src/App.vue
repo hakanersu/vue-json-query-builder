@@ -1,10 +1,17 @@
 <template>
-  <div id="app">
-    <h1>Vue JSON Query Builder</h1>
-    <VueJSONQueryBuilder
-      v-model="currentQuery" :query="query" :options="queryOptions" :run-query="runQuery"
-      storage="test-vue-json-query-builder"
-    />
+  <div id="app" class="container mx-auto">
+    <h1 class="text-4xl sm:text-5xl lg:text-6xl leading-none font-extrabold text-gray-900 tracking-tight mt-4 mb-4 md:mt-8 md:mb-8">
+      Vue JSON Query Builder
+    </h1>
+    <div class="my-5">
+      <VueJSONQueryBuilder
+        v-model="currentQuery" 
+        :query="query" 
+        :options="queryOptions" 
+        :run-query="runQuery"
+        storage="test-vue-json-query-builder"
+      />
+    </div> 
     <strong class="mt-3 mb-1 d-block">Generated Query:</strong>
     <pre><code>{{ JSON.stringify(currentQuery, null, 4) }}</code></pre>
   </div>

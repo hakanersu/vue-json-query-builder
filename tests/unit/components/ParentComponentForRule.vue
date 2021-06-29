@@ -14,21 +14,13 @@ export default {
   },
   props: {
     currentQuery: {
-      type: Object
+      type: Object,
+      default: undefined
     },
     options: {
-      type: Array
+      type: Array,
+      default: undefined
     }
   },
-  data: function () {
-    return {
-    }
-  },
-  computed: {
-  },
-  watch: {
-  },
-  methods: {
-  }
 }
 </script>
