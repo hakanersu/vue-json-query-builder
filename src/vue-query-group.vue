@@ -42,7 +42,7 @@
         v-bind:key="item._uuid"
         v-if="typeof item.condition === 'string'"
       >
-        <div class="p-2">
+        <div class="p-2 border border-blue-600">
           <VueQueryGroup
             v-bind:current-query="item"
             v-bind:options="options"
