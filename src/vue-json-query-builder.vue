@@ -200,18 +200,18 @@
         </thead>
         <tbody>
           <tr
-            v-for="query in savedQueries"
-            :key="query.createdDate"
+            v-for="sQuery in savedQueries"
+            :key="sQuery.createdDate"
           >
-            <td v-text="query.name" />
+            <td v-text="sQuery.name" />
             <td>
-              {{ new Date(query.createdDate).toLocaleDateString() }}
+              {{ new Date(sQuery.createdDate).toLocaleDateString() }}
             </td>
             <td>
-              <button @click="loadSavedQuery(query.query)">
+              <button @click="loadSavedQuery(sQuery.query)">
                 Load
               </button>
-              <button @click="deleteSavedQuery(query.query)">
+              <button @click="deleteSavedQuery(sQuery.query)">
                 Delete
               </button>
             </td>
@@ -314,39 +314,18 @@ export default {
     }
   },
   computed: {
-    runQueryDisabled: function () {
-      const self = this
-      return self.loading || !self.areAllQueriesValid
+    runQueryDisabled () {
+      return this.loading || !this.areAllQueriesValid
     },
-    savedQueries: function () {
-      const self = this
-      return self.modals.viewSavedQueries.savedQueries
+    savedQueries () {
+      return this.modals.viewSavedQueries.savedQueries
     },
     areAllQueriesValid: function () {
-      const self = this
+     
 
-      function checkIfEntityAndChildrenAreValid (entity) {
-        const keys = Object.keys(entity)
-        let response = true
-
-        if (keys.includes('value')) {
-          if (entity.value === null || entity.value.toString().length === 0) {
-            response = false
-          }
-        } else if (keys.includes('rules')) {
-          for (let i = 0; i < entity.rules.length; i++) {
-            const rule = entity.rules[i]
-            if (!checkIfEntityAndChildrenAreValid(rule)) {
-              response = false
-            }
-          }
-        }
-
-        return response
-      }
-
-      return checkIfEntityAndChildrenAreValid(self.currentQuery)
-    }
+      return this.checkIfEntityAndChildrenAreValid(this.currentQuery)
+    },
+   
   },
   watch: {
     currentQuery: {
@@ -367,20 +346,36 @@ export default {
       }
     }
   },
-  created: function () {
-    const self = this
-
-    if (self.storedQueries) {
-      self.currentQuery = JSON.parse(JSON.stringify(self.storedQueries))
+  created () {
+    if (this.storedQueries) {
+      this.currentQuery = JSON.parse(JSON.stringify(this.storedQueries))
     } else {
-      self.resetToDefaultQuery()
+      this.resetToDefaultQuery()
     }
   },
   methods: {
-    getStoredQueries: function () {
-      const self = this
-      if (self.storage) {
-        const storedQueries = localStorage.getItem('VueJSONQueryBuilder_stored_' + self.storage)
+ checkIfEntityAndChildrenAreValid (entity) {
+        const keys = Object.keys(entity)
+        let response = true
+
+        if (keys.includes('value')) {
+          if (entity.value === null || entity.value.toString().length === 0) {
+            response = false
+          }
+        } else if (keys.includes('rules')) {
+          for (let i = 0; i < entity.rules.length; i++) {
+            const rule = entity.rules[i]
+            if (!this.checkIfEntityAndChildrenAreValid(rule)) {
+              response = false
+            }
+          }
+        }
+
+        return response
+      },
+    getStoredQueries () {
+      if (this.storage) {
+        const storedQueries = localStorage.getItem('VueJSONQueryBuilder_stored_' + this.storage)
         if (storedQueries) {
           return JSON.parse(storedQueries)
         }
@@ -388,10 +383,9 @@ export default {
       }
       return false
     },
-    getSavedQueries: function () {
-      const self = this
-      if (self.storage) {
-        const savedQueries = localStorage.getItem('VueJSONQueryBuilder_saved_' + self.storage)
+    getSavedQueries () {
+      if (this.storage) {
+        const savedQueries = localStorage.getItem('VueJSONQueryBuilder_saved_' + this.storage)
         if (savedQueries) {
           return JSON.parse(savedQueries)
         }
@@ -399,17 +393,15 @@ export default {
       }
       return []
     },
-    runCurrentQuery: function () {
-      const self = this
-      if (self.runQuery) {
-        self.loading = true
-        Promise.resolve(self.runQuery(self.currentQuery)).then(function () {
-          self.loading = false
+    runCurrentQuery () {
+      if (this.runQuery) {
+        this.loading = true
+        Promise.resolve(this.runQuery(this.currentQuery)).then(function () {
+          this.loading = false
         })
       }
     },
-    addUUIDsToCurrentQuery: function () {
-      const self = this
+    addUUIDsToCurrentQuery () {
 
       function addUUIDsToQueryAndChildren (query) {
         const keys = Object.keys(query)
@@ -426,13 +418,11 @@ export default {
         }
       }
 
-      addUUIDsToQueryAndChildren(self.currentQuery)
+      addUUIDsToQueryAndChildren(this.currentQuery)
     },
-    resetToDefaultQuery: function () {
-      const self = this
-
-      self.currentQuery = JSON.parse(JSON.stringify(self.query))
-      self.addUUIDsToCurrentQuery()
+    resetToDefaultQuery () {
+      this.currentQuery = JSON.parse(JSON.stringify(this.query))
+      this.addUUIDsToCurrentQuery()
     },
     saveQuery () {
 
@@ -443,34 +433,13 @@ export default {
       })
       this.queryName = ''
     },
-    loadSavedQuery: function (query) {
-      const self = this
-      self.currentQuery = JSON.parse(JSON.stringify(query))
-      self.addUUIDsToCurrentQuery()
-      self.modals.viewSavedQueries.visible = false
+    loadSavedQuery (query) {
+      this.currentQuery = JSON.parse(JSON.stringify(query))
+      this.addUUIDsToCurrentQuery()
+      this.modals.viewSavedQueries.visible = false
     },
-    deleteSavedQuery: function (query) {
-      const self = this
-      self.$bvModal.msgBoxConfirm('Please confirm that you wish to delete this query.', {
-        title: 'Confirm Query Deletion',
-        size: 'sm',
-        buttonSize: 'sm',
-        okVariant: 'danger',
-        okTitle: 'Yes',
-        cancelTitle: 'No',
-        footerClass: 'p-2',
-        hideHeaderClose: true,
-        centered: true
-      }).then(function (response) {
-        if (response === true) {
-          self.savedQueries.splice(self.savedQueries.indexOf(query), 1)
-          if (self.savedQueries.length === 0) {
-            self.modals.viewSavedQueries.visible = false
-          }
-        } else {
-          return false
-        }
-      })
+    deleteSavedQuery (query) {
+        this.savedQueries.splice(this.savedQueries.indexOf(query), 1)
     }
   }
 }
